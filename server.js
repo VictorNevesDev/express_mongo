@@ -3,7 +3,9 @@ import http from "http";
 const PORT = 3000;
 
 const rotas = {
-    "/" : "Node Course"
+    "/": "Node Course",
+    "/authors": "John" ,
+    "/books": "Science Book",
 };
 
 const server = http.createServer((req, res) => {
