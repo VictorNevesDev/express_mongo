@@ -22,11 +22,6 @@ app.get("/", (req, res) => {
     res.status(200).send("Node Course");
 });
 
-// Books routes
-app.get("/books", async (req, res) => {
-    const getBooks = await booksModel.find({});
-    res.status(200).json(getBooks);
-});
 
 app.get("/books/:id", (req, res) => {
     // params: (id) id: (name of parameter)
