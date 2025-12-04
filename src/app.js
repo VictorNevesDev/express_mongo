@@ -1,5 +1,6 @@
 import express from "express";
 import connectToDatabase from "./config/dbConnect.js";
+import booksModel from "./models/books.js";
 
 const connection = await connectToDatabase();
 
@@ -16,32 +17,15 @@ const app = express();
 // Middleware to convert string => json
 app.use(express.json());
 
-const books = [
-    {
-        id: 1,
-        title: "Harry Potter",
-    },
-    {
-        id: 2,
-        title: "Lord of the Rings"
-    }
-]
-
-function getBooks(id){
-    return books.findIndex(books => {
-        // parsing str => number for comparison
-        return books.id === Number(id);
-    });
-};
-
 // Source route
 app.get("/", (req, res) => {
     res.status(200).send("Node Course");
 });
 
 // Books routes
-app.get("/books", (req, res) => {
-    res.status(200).json(books);
+app.get("/books", async (req, res) => {
+    const getBooks = await booksModel.find({});
+    res.status(200).json(getBooks);
 });
 
 app.get("/books/:id", (req, res) => {
