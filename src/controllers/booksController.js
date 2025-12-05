@@ -12,19 +12,17 @@ class BooksController {
     //POST
     static async postBooks (req, res) {
         try {
-
-            res.status(201).send("Book registered successfully!")
-        } catch (erro){
-
+            const newBook = await booksModel.create(req.body);
+            res.status(201).json({ message: "Successfully created!", book: newBook });
+        } catch (e){
+            res.status(500).json({ message: `${e.message} - book registration failed!`});
 
         }
 
-        const postBooks = await booksModel.a({});
-        res.status(200).json(postBooks);
     }
 };
 
-export default LivroController;
+export default BooksController;
 
 
 
