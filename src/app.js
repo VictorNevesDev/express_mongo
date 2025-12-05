@@ -15,23 +15,4 @@ connection.once("open", () => {
 const app = express();
 routes(app);
 
-app.get("/books/:id", (req, res) => {
-    // params: (id) id: (name of parameter)
-    const index = getBooks(req.params.id);
-    res.status(200).json(books[index]);
-});
-
-app.put("/books/:id", (req, res) => {
-    const index = getBooks(req.params.id);
-    books[index].title = req.body.title;
-    res.status(200).json(books);
-});
-
-app.delete("/books/:id", (req, res) => {
-    const index = getBooks(req.params.id);
-    books.splice(index, 1);
-    res.status(200).send("Book removed successfully");
-});
-
-
 export default app;
