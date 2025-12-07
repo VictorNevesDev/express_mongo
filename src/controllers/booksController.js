@@ -1,10 +1,11 @@
 import booksModel from "../models/books.js";
+import { authorsModel } from "../models/author.js";
 
 class BooksController {
     // won't require to instantiate class {static}
     static async getBooks (req, res) {
         try{
-            const getBooks = await booksModel.find({});
+            const getBooks = await booksModel.find({}).populate("author");
             res.status(200).json(getBooks);
         } catch (e){
             res.status(500).json({ message: `${e.message} - request failed!`});
@@ -39,13 +40,23 @@ class BooksController {
     }
 
     static async postBooks (req, res) {
-        try {
-            const newBook = await booksModel.create(req.body);
-            res.status(201).json({ message: "Successfully created!", book: newBook });
-        } catch (e){
-            res.status(500).json({ message: `${e.message} - book registration failed!`});
+    const newBook = req.body;
+
+    try {
+        const foundAuthor = await authorsModel.findById(newBook.author);
+        
+        if (!foundAuthor) {
+            return res.status(404).json({ message: "Author not found" });
         }
+
+        // Create book with just the author ID (already in newBook.author)
+        const createdBook = await booksModel.create(newBook);
+
+        res.status(201).json({ message: "Successfully created!", book: createdBook });
+    } catch (e) {
+        res.status(500).json({ message: `${e.message} - book registration failed!` });
     }
+}
 };
 
 export default BooksController;
