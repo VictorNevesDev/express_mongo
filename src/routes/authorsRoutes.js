@@ -5,8 +5,8 @@ const routes = express.Router();
 
 routes.get("/authors", AuthorsController.getAuthors);
 routes.post("/authors", AuthorsController.postAuthors);
-routes.get("/authors/:id", AuthorsController.getAuthorsById);
-routes.put("/authors/:id", AuthorsController.updateAuthorsById);
-routes.delete("/authors/:id", AuthorsController.deleteAuthorsById);
+routes.get("/authors/:id", AuthorsController.getAuthorById);
+routes.put("/authors/:id", AuthorsController.updateAuthorById);
+routes.delete("/authors/:id", AuthorsController.deleteAuthorById);
 
 export default routes;

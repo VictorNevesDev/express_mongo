@@ -1,4 +1,5 @@
-import authorsModel from "../models/author.js";
+// export { authorsModel, authorSchema } author model
+import { authorsModel } from "../models/author.js";
 
 class AuthorsController {
     // won't require to instantiate class {static}
