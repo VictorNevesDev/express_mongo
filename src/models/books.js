@@ -8,6 +8,7 @@ const bookSchema = new mongoose.Schema({
     price: { type: Number },
     pages: { type: Number },
     author: { type: mongoose.Schema.Types.ObjectId, ref: "authors", required: true },
+    editor: { type: String },
 }, { versionKey: false });
 
 const booksModel = mongoose.model("books", bookSchema);

@@ -40,23 +40,35 @@ class BooksController {
     }
 
     static async postBooks (req, res) {
-    const newBook = req.body;
+        const newBook = req.body;
 
-    try {
-        const foundAuthor = await authorsModel.findById(newBook.author);
-        
-        if (!foundAuthor) {
-            return res.status(404).json({ message: "Author not found" });
+        try {
+            const foundAuthor = await authorsModel.findById(newBook.author);
+            
+            if (!foundAuthor) {
+                return res.status(404).json({ message: "Author not found" });
+            }
+
+            // Create book with just the author ID (already in newBook.author)
+            const createdBook = await booksModel.create(newBook);
+
+            res.status(201).json({ message: "Successfully created!", book: createdBook });
+        } catch (e) {
+            res.status(500).json({ message: `${e.message} - book registration failed!` });
         }
-
-        // Create book with just the author ID (already in newBook.author)
-        const createdBook = await booksModel.create(newBook);
-
-        res.status(201).json({ message: "Successfully created!", book: createdBook });
-    } catch (e) {
-        res.status(500).json({ message: `${e.message} - book registration failed!` });
     }
-}
+
+    static async getBooksByEditor (req, res) {
+        const editor = req.query.editor;
+
+        try {
+            // { editor: editor } fist-> property of booksModel, second -> query requested
+            const booksByEditor = await booksModel.find({ editor: editor }).populate("author");
+            res.status(200).json(booksByEditor);
+        } catch (e) {
+
+        }
+    }
 };
 
 export default BooksController;
